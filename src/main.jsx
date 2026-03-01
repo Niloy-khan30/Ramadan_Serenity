@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import Root from './Root/Root.jsx'
 import Home from './component/Home/Home.jsx'
+import RamadanCalender from './component/RamadanCalender/RamadanCalender.jsx'
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,12 @@ const router = createBrowserRouter([
       {
         path:"/",
         element:<Home></Home>
+      },
+      {
+        path:"/ramadanCalender",
+        element:<RamadanCalender></RamadanCalender>
       }
+
     ]
   },
 ]);
