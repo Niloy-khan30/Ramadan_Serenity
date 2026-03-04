@@ -65,33 +65,33 @@ const LocationPrayer = () => {
     }
 
     return (
-        <div className=" mt-10 bg-white shadow-2xl rounded-2xl p-6">
-            <h2 className="text-2xl font-bold text-center mb-4">
+        <div className=" mt-10 w-[30%] bg-white shadow-2xl rounded-2xl p-3">
+            <h2 className="text-1xl font-bold text-center mb-4">
                 📍 Location Based Prayer Times
             </h2>
 
             <div className="space-y-3">
-                <div className="flex justify-between bg-green-100 p-3 rounded-xl">
+                <div className="flex justify-between bg-green-100 p-2 rounded-xl">
                     <span>🌅 Fajr</span>
                     <span>{formatTime(prayerTimes.Fajr)}</span>
                 </div>
 
-                <div className="flex justify-between bg-blue-100 p-3 rounded-xl">
+                <div className="flex justify-between bg-blue-100 p-2 rounded-xl">
                     <span>☀ Dhuhr</span>
                     <span>{formatTime(prayerTimes.Dhuhr)}</span>
                 </div>
 
-                <div className="flex justify-between bg-yellow-100 p-3 rounded-xl">
+                <div className="flex justify-between bg-yellow-100 p-2 rounded-xl">
                     <span>🌤 Asr</span>
                     <span>{formatTime(prayerTimes.Asr)}</span>
                 </div>
 
-                <div className="flex justify-between bg-orange-100 p-3 rounded-xl">
+                <div className="flex justify-between bg-orange-100 p-2 rounded-xl">
                     <span>🌇 Maghrib</span>
                     <span>{formatTime(prayerTimes.Maghrib)}</span>
                 </div>
 
-                <div className="flex justify-between bg-purple-100 p-3 rounded-xl">
+                <div className="flex justify-between bg-purple-100 p-2 rounded-xl">
                     <span>🌙 Isha</span>
                     <span>{formatTime(prayerTimes.Isha)}</span>
                 </div>

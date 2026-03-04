@@ -5,33 +5,60 @@ import {
     CalculationMethod,
     Madhab,
 } from "adhan";
-import moment from "moment";
-import "moment-hijri";
 
 const Ramadan = () => {
     const [sehri, setSehri] = useState("");
     const [iftar, setIftar] = useState("");
-    const [ramadanDay, setRamadanDay] = useState("");
     const [countdown, setCountdown] = useState("");
+    const [coordinates, setCoordinates] = useState(null);
 
-    // Dhaka Coordinates
-    const coordinates = new Coordinates(23.8103, 90.4125);
     const params = CalculationMethod.Karachi();
     params.madhab = Madhab.Hanafi;
 
+    // Function to format prayer times
+    const formatTime = (date) =>
+        date.toLocaleTimeString("en-BD", {
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+
+    // Get user's current location
     useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    setCoordinates(
+                        new Coordinates(
+                            position.coords.latitude,
+                            position.coords.longitude
+                        )
+                    );
+                },
+                (error) => {
+                    console.error("Error getting location:", error);
+                    // Fallback to Dhaka if user denies location
+                    setCoordinates(new Coordinates(23.8103, 90.4125));
+                }
+            );
+        } else {
+            // Browser doesn't support geolocation
+            setCoordinates(new Coordinates(23.8103, 90.4125));
+        }
+    }, []);
+
+    // Update prayer times when coordinates are available
+    useEffect(() => {
+        if (!coordinates) return;
+
         const today = new Date();
         const prayerTimes = new PrayerTimes(coordinates, today, params);
 
         setSehri(formatTime(prayerTimes.fajr));
         setIftar(formatTime(prayerTimes.maghrib));
 
-
-        // Countdown to Iftar
         const interval = setInterval(() => {
             const now = new Date();
             const maghrib = prayerTimes.maghrib;
-
             const diff = maghrib.getTime() - now.getTime();
 
             if (diff > 0) {
@@ -46,13 +73,7 @@ const Ramadan = () => {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, []);
-
-    const formatTime = (date) =>
-        date.toLocaleTimeString("en-BD", {
-            hour: "2-digit",
-            minute: "2-digit",
-        });
+    }, [coordinates]);
 
     return (
         <div className="w-1/3 mt-10">
