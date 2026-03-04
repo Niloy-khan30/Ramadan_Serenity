@@ -12,6 +12,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.2.1",
     "adhan": "^4.4.3",
+    "axios": "^1.13.6",
     "localforage": "^1.10.0",
     "match-sorter": "^8.2.0",
     "moment": "^2.30.1",

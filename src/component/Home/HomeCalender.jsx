@@ -12,7 +12,7 @@ const HomeCalender = () => {
 
             <div className="mt-10  h-[350px]">
 
-                <div className="">
+                <div className="h-full">
                     <Calendar
                         onChange={onChange}
                         value={value}

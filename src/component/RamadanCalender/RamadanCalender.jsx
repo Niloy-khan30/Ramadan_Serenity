@@ -1,129 +1,162 @@
-// src/components/RamadanCalendar.jsx
 import React, { useEffect, useState } from "react";
-import RamadanDay from "../RamadanDay/RamadanDay";
+import axios from "axios";
 
-const RamadanCalendar = () => {
+const Ramadan = () => {
+    const [city, setCity] = useState("Dhaka");
+    const [coordinates, setCoordinates] = useState({
+        lat: 23.8103,
+        lon: 90.4125,
+    });
     const [ramadanDays, setRamadanDays] = useState([]);
-    const [selectedDay, setSelectedDay] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [Time, setTime] = useState(null)
+    const [selectedDay, setSelectedDay] = useState(null); // ✅ store clicked day
+    const [loading, setLoading] = useState(false);
+
+    const getCoordinates = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get(
+                `https://nominatim.openstreetmap.org/search?format=json&q=${city}`
+            );
+
+            if (res.data.length > 0) {
+                setCoordinates({
+                    lat: res.data[0].lat,
+                    lon: res.data[0].lon,
+                });
+            } else {
+                alert("Location not found");
+                setLoading(false);
+            }
+        } catch (err) {
+            console.log(err);
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const currentYear = new Date().getFullYear();
-        console.log(currentYear)
+        const fetchCalendar = async () => {
+            const currentYear = new Date().getFullYear();
 
-        fetch(
-            `https://api.aladhan.com/v1/calendarByCity/${currentYear}/3?city=Dhaka&country=Bangladesh`
-        )
-            .then(res => res.json())
-            .then(data => {
-                setRamadanDays(data.data)
-                setLoading(false)
+            try {
+                const res = await axios.get(
+                    `https://api.aladhan.com/v1/calendar/${currentYear}/3?latitude=${coordinates.lat}&longitude=${coordinates.lon}&method=1`
+                );
 
-            })
-    }, []);
+                const filtered = res.data.data.filter(
+                    (day) =>
+                        day.date.hijri.month.number === 9 ||
+                        day.date.hijri.month.number === 10
+                );
 
-    // console.log(ramadanDays)
-    const prayertime = (time) => {
-        console.log(time)
-        setTime(time)
+                setRamadanDays(filtered);
+            } catch (err) {
+                console.log(err);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    }
-
-
-
-
-
-
-    if (loading) {
-        return <p className="text-center mt-10 text-lg">Loading Ramadan Data...</p>;
-    }
+        fetchCalendar();
+    }, [coordinates]);
 
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen bg-gray-100 p-6 mb-20">
+            <h1 className="text-3xl font-bold text-center mb-6">
+                🌙 Ramadan & Eid Calendar
+            </h1>
 
-            <div className="max-w-6xl mx-auto">
-
-                <h1 className="text-3xl md:text-4xl font-bold text-center text-yellow-400 m-10">
-                    🌙 Ramadan Calendar
-                </h1>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {ramadanDays.map((day, index) => (
-                        <div
-                            key={index}
-                            className="transform transition duration-300 hover:scale-105"
-                        >
-                            <RamadanDay xkey={index} day={day} prayertime={prayertime} />
-                        </div>
-                    ))}
-                </div>
-
+            {/* Location Input */}
+            <div className="flex justify-center gap-3 mb-8">
+                <input
+                    type="text"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    className="px-4 py-2 rounded-xl border focus:ring-2 focus:ring-indigo-400"
+                />
+                <button
+                    onClick={getCoordinates}
+                    disabled={loading}
+                    className={`px-5 py-2 rounded-xl text-white ${loading
+                        ? "bg-gray-400"
+                        : "bg-indigo-600 hover:bg-indigo-700"
+                        }`}
+                >
+                    {loading ? "Loading..." : "Search"}
+                </button>
             </div>
 
-            {
-                Time && <>
-                    {/* The button to open modal */}
+            {/* Loader */}
+            {loading && (
+                <div className="flex justify-center mt-10">
+                    <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+            )}
 
+            {/* Ramadan Cards */}
+            {!loading && (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {ramadanDays.map((day, index) => {
+                        const isEid =
+                            day.date.hijri.month.number === 10 &&
+                            day.date.hijri.day === "1";
 
-                    {/* Put this part before </body> tag */}
-                    <div
-                        className="modal fixed inset-0 flex items-center justify-center bg-black/50 z-50"
-                        role="dialog"
-                        id="my_modal_8"
-                    >
-                        <div className="modal-box bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 text-white rounded-2xl shadow-2xl p-6 w-full max-w-md space-y-4">
+                        return (
+                            <div
+                                key={index}
+                                onClick={() => setSelectedDay(day)} // ✅ open modal
+                                className={`p-5 rounded-2xl shadow-lg cursor-pointer transition transform hover:scale-105
+                  ${isEid
+                                        ? "bg-gradient-to-r from-yellow-400 to-orange-500 text-white border-4 border-yellow-300 scale-105"
+                                        : "bg-white hover:bg-indigo-50"
+                                    }
+`}
+                            >
+                                <h2 className="text-xl font-bold">
+                                    {isEid
+                                        ? "🌙 Eid-ul-Fitr"
+                                        : `${day.date.hijri.month.en} ${day.date.hijri.day}`}
+                                </h2>
 
-                            <h2 className="text-2xl font-bold text-yellow-400 text-center mb-4">
-                                Prayer Times
-                            </h2>
+                                <p className="text-sm mb-2">{day.date.readable}</p>
 
-                            <div className="grid grid-cols-2 gap-2 text-sm">
-                                <div className="flex justify-between border-b border-white/20 pb-1">
-                                    <span className="font-semibold">Fajr</span>
-                                    <span>{Time.Fajr}</span>
-                                </div>
-                                <div className="flex justify-between border-b border-white/20 pb-1">
-                                    <span className="font-semibold">Dhuhr</span>
-                                    <span>{Time.Dhuhr}</span>
-                                </div>
-                                <div className="flex justify-between border-b border-white/20 pb-1">
-                                    <span className="font-semibold">Asr</span>
-                                    <span>{Time.Asr}</span>
-                                </div>
-                                <div className="flex justify-between border-b border-white/20 pb-1">
-                                    <span className="font-semibold">Maghrib</span>
-                                    <span>{Time.Maghrib}</span>
-                                </div>
-                                <div className="flex justify-between border-b border-white/20 pb-1">
-                                    <span className="font-semibold">Isha</span>
-                                    <span>{Time.Isha}</span>
-                                </div>
-                                <div className="flex justify-between border-b border-white/20 pb-1">
-                                    <span className="font-semibold">Sunrise</span>
-                                    <span>{Time.Sunrise}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="font-semibold">Sunset</span>
-                                    <span>{Time.Sunset}</span>
-                                </div>
+                                <p className="text-sm">
+                                    Sehri: {day.timings.Fajr}
+                                </p>
+                                <p className="text-sm">
+                                    Iftar: {day.timings.Maghrib}
+                                </p>
                             </div>
+                        );
+                    })}
+                </div>
+            )}
 
-                            <div className="modal-action mt-4">
-                                <a
-                                    href="#"
-                                    className="btn btn-warning w-full"
-                                    onClick={() => document.getElementById("my_modal_8").close()}
-                                >
-                                    Close
-                                </a>
-                            </div>
-                        </div>
+            {/* ✅ Modal Popup */}
+            {selectedDay && (
+                <div className="fixed inset-0 shadow-2xl bg-opacity-50 flex justify-center items-center z-50">
+                    <div className="bg-white w-[90%] max-w-md p-6 rounded-2xl shadow-2xl relative animate-fadeIn">
+                        <button
+                            onClick={() => setSelectedDay(null)}
+                            className="absolute top-3 right-4 text-gray-500 hover:text-red-500 text-xl"
+                        >
+                            ✕
+                        </button>
+
+                        <h2 className="text-2xl font-bold mb-4 text-center">
+                            Prayer Times ({city})
+                        </h2>
+
+                        <p><strong>Date:</strong> {selectedDay.date.readable}</p>
+                        <p>Fajr: {selectedDay.timings.Fajr}</p>
+                        <p>Dhuhr: {selectedDay.timings.Dhuhr}</p>
+                        <p>Asr: {selectedDay.timings.Asr}</p>
+                        <p>Maghrib: {selectedDay.timings.Maghrib}</p>
+                        <p>Isha: {selectedDay.timings.Isha}</p>
                     </div>
-                </>
-            }
+                </div>
+            )}
         </div>
     );
 };
 
-export default RamadanCalendar;
+export default Ramadan;
