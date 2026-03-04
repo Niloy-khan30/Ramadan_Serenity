@@ -13,7 +13,7 @@ const Sidebar = () => {
                 <label htmlFor="my-drawer-1" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu bg-base-200 min-h-full w-80 p-4">
                     {/* Sidebar content here */}
-                    <Link to='/ramadanCalender'>Ramadan Calender</Link>
+                    <li><Link to='/ramadanCalender'>Ramadan Calender</Link></li>
                     <li><a>Sidebar Item 2</a></li>
                 </ul>
             </div>

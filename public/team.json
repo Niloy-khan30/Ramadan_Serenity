@@ -1,0 +1,56 @@
+{
+  "profiles": [
+    {
+      "image": "../src/assets/team/1.jpg",
+      "name": "Kamrul Hassan Niloy",
+      "title": "Bracu Student",
+      "image_context": "Man holding a tire, wearing gloves in a workshop",
+      "social_media": {
+        "facebook": true,
+        "twitter": true,
+        "linkedin": true,
+        "instagram": true
+      }
+    },
+    {
+      "image": "../src/assets/team/1.jpg",
+      "name": "Abrar Hossain",
+      "title": "Bracu Student",
+      "image_context": "Man holding a tire, wearing gloves in a workshop",
+      "social_media": {
+        "facebook": true,
+        "twitter": true,
+        "linkedin": true,
+        "instagram": true
+      }
+    },
+    {
+      "image": "../src/assets/team/1.jpg",
+      "name": "MD. Samin Awsaf Rahman",
+      "title": "bracu Student",
+      "image_context": "Man holding a tire, wearing gloves in a workshop",
+      "social_media": {
+        "facebook": true,
+        "twitter": true,
+        "linkedin": true,
+        "instagram": true
+      }
+    },
+    {
+      "image": "../src/assets/team/1.jpg",
+      "name": "Mitul",
+      "title": "Bracu Student",
+      "image_context": "Man holding a tablet with a car lifted in the background",
+      "social_media": {
+        "facebook": true,
+        "twitter": true,
+        "linkedin": true,
+        "instagram": true
+      }
+    }
+  ],
+  "carousel_navigation": {
+    "left_arrow": true,
+    "right_arrow": true
+  }
+}
