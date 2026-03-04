@@ -58,21 +58,21 @@ const PrayerTime = () => {
         });
 
     return (
-        <div className="border w-1/3 mt-10">
-            <div className="bg-white shadow-2xl rounded-2xl p-6">
-                <h2 className="text-2xl font-bold text-center text-gray-700 mb-2">
+        <div className=" w-1/3 mt-10">
+            <div className="bg-white shadow-2xl rounded-2xl p-3">
+                <h2 className="text-xl font-bold text-center text-gray-700 mb-1">
                     🕌 Prayer Times
                 </h2>
 
-                <p className="text-center text-gray-600 mb-4">
+                <p className="text-center text-gray-600 mb-2">
                     {currentTime.toLocaleTimeString()}
                 </p>
 
-                <div className="space-y-4">
+                <div className="space-y-1">
                     {Object.entries(prayers).map(([name, time]) => (
                         <div
                             key={name}
-                            className={`flex justify-between p-3 rounded-xl ${nextPrayer === name.toLowerCase()
+                            className={`flex justify-between p-2 rounded-xl ${nextPrayer === name.toLowerCase()
                                     ? "bg-indigo-100 border border-indigo-400"
                                     : "bg-gray-100"
                                 }`}
@@ -85,12 +85,9 @@ const PrayerTime = () => {
                     ))}
                 </div>
 
-                <div className="mt-5 text-center bg-indigo-50 p-3 rounded-xl">
+                <div className="mt-2 text-center bg-indigo-50 p-1 rounded-xl">
                     <p className="text-gray-700 font-semibold">
-                        Next: {nextPrayer}
-                    </p>
-                    <p className="text-indigo-600 font-bold">
-                        ⏳ {countdown}
+                        Next: {nextPrayer} in ⏳ {countdown}
                     </p>
                 </div>
             </div>

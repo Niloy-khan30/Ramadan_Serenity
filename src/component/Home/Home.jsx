@@ -13,6 +13,9 @@ const Home = () => {
     return (
         <div className='mb-20 relative'>
             <Banner></Banner>
+            <div className='text-center text-3xl font-bold mt-10'>
+                <h3><span className='text-amber-500'>Ramadan</span><br />Prayer Time & Date </h3>
+            </div>
             <div className='flex justify-between '>
                 <Ramadan className='border'></Ramadan>
                 <HomeCalender></HomeCalender>

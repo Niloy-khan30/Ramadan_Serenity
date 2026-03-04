@@ -1,7 +1,7 @@
 {
   "profiles": [
     {
-      "image": "../src/assets/team/1.jpg",
+      "image": "../src/assets/person/me.png",
       "name": "Kamrul Hassan Niloy",
       "title": "Bracu Student",
       "image_context": "Man holding a tire, wearing gloves in a workshop",
@@ -13,7 +13,7 @@
       }
     },
     {
-      "image": "../src/assets/team/1.jpg",
+      "image": "../src/assets/person/abrar.png",
       "name": "Abrar Hossain",
       "title": "Bracu Student",
       "image_context": "Man holding a tire, wearing gloves in a workshop",
@@ -25,7 +25,7 @@
       }
     },
     {
-      "image": "../src/assets/team/1.jpg",
+      "image": "../src/assets/person/samin.png",
       "name": "MD. Samin Awsaf Rahman",
       "title": "bracu Student",
       "image_context": "Man holding a tire, wearing gloves in a workshop",
