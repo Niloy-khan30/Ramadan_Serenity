@@ -10,6 +10,7 @@ import {
 import Root from './Root/Root.jsx'
 import Home from './component/Home/Home.jsx'
 import RamadanCalender from './component/RamadanCalender/RamadanCalender.jsx'
+import QuranReader from './component/QuranReader/QuranReader.jsx'
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path:"/ramadanCalender",
         element:<RamadanCalender></RamadanCalender>
+      },
+      {
+        path:"/quran",
+        element:<QuranReader></QuranReader>
       }
 
     ]

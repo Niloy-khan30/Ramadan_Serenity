@@ -14,6 +14,7 @@ const Sidebar = () => {
                 <ul className="menu bg-base-200 min-h-full w-80 p-4">
                     {/* Sidebar content here */}
                     <li><Link to='/ramadanCalender'>Ramadan Calender</Link></li>
+                    <li><Link to='/quran'>Read Quran</Link></li>
                     <li><a>Sidebar Item 2</a></li>
                 </ul>
             </div>

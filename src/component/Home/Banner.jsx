@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../Navbar/sidebar';
 import banner from '../../assets/Banner/banner.jpg'
+import QiblaFinder from '../QiblaDirection/QiblaFinder';
 
 const Banner = () => {
     return (
@@ -16,6 +17,7 @@ const Banner = () => {
                         quasi. In deleniti eaque aut repudiandae et a id nisi.
                     </p>
                     <Sidebar></Sidebar>
+                    <QiblaFinder></QiblaFinder>
                 </div>
             </div>
         </div>

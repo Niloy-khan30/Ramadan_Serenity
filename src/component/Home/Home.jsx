@@ -8,6 +8,8 @@ import PrayerTime from './PrayerTime';
 import Ramadan from './Ramadan';
 import Team from '../Team/Team';
 import LocationPrayer from './LocationPrayer';
+
+
 // import Calendar from 'react-calendar';
 
 const Home = () => {
@@ -21,8 +23,9 @@ const Home = () => {
                 <Ramadan className='border'></Ramadan>
                 <HomeCalender></HomeCalender>
                 <LocationPrayer></LocationPrayer>
+                {/* <PrayerTime></PrayerTime> */}
             </div>
-
+          
             <Team></Team>
             
             
