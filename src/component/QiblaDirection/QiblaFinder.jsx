@@ -79,14 +79,13 @@ export default function QiblaFinder() {
 
     return (
         <div style={{ maxWidth: 360, margin: "0 auto", padding: "2rem 1rem", fontFamily: "var(--font-sans)" }}>
-
             {permissionState === "idle" && (
                 <button
                     onClick={requestLocation}
                     style={{
                         width: "100%",
                         padding: "10px 0",
-                        fontSize: 15,
+                        fontSize: 20,
                         fontWeight: 500,
                         cursor: "pointer",
                         borderRadius: "var(--border-radius-md)",
