@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../Navbar/sidebar';
-import banner from '../../assets/Banner/banner.jpg'
+import banner from '../../assets/Banner/banner2.jpg'
 import QiblaFinder from '../QiblaDirection/QiblaFinder';
 
 const Banner = () => {
