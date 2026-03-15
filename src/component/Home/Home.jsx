@@ -8,6 +8,7 @@ import PrayerTime from './PrayerTime';
 import Ramadan from './Ramadan';
 import Team from '../Team/Team';
 import LocationPrayer from './LocationPrayer';
+import Banner2 from './Banner2';
 
 
 // import Calendar from 'react-calendar';
