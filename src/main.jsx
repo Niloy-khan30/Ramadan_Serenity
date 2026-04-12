@@ -15,6 +15,9 @@ import Login from './pages/Login/Login.jsx';
 import Profile from './pages/Profile/Profile.jsx';
 import PrivateRoute from './routes/PrivateRoute.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
+import PrayerTracker from './component/PrayerTracker/PrayerTracker.jsx';
+import GoalPlanner from './component/GoalPlanner/GoalPlanner.jsx';
+
 
 const router = createBrowserRouter([
   {
@@ -48,7 +51,24 @@ const router = createBrowserRouter([
             <Profile></Profile>
           </PrivateRoute>
         )
-      }
+      },
+      {
+        path: "/prayer-tracker",
+        element: (
+          <PrivateRoute>
+            <PrayerTracker />
+          </PrivateRoute>
+        )
+      },
+
+      {
+        path: "/goal-planner",
+        element: (
+          <PrivateRoute>
+            <GoalPlanner />
+          </PrivateRoute>
+        )
+      },
     ]
   },
 ]);
