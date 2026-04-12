@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { CalendarDays, BookOpen, CheckSquare } from "lucide-react";
+import { CalendarDays, BookOpen, CheckSquare, ClipboardCheck, Target } from "lucide-react";
 
 const Sidebar = () => {
     return (
@@ -61,6 +61,26 @@ const Sidebar = () => {
                         >
                             <CheckSquare size={20} />
                             Fasting Tracker
+                        </Link>
+                    </li>
+
+                    <li>
+                        <Link
+                            to="/prayer-tracker"
+                            className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-green-900 transition-all duration-300"
+                        >
+                            <ClipboardCheck size={20} />
+                            Prayer Tracker
+                        </Link>
+                    </li>
+
+                    <li>
+                        <Link
+                            to="/goal-planner"
+                            className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-green-900 transition-all duration-300"
+                        >
+                            <Target size={20} />
+                            Goal Planner
                         </Link>
                     </li>
 
