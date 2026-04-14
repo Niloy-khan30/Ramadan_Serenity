@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const PrayerLogRoutes = require("./routes/PrayerLogRoutes");
 const goalRoutes = require("./routes/GoalRoutes");
+const ibaadatScoreRoutes = require("./routes/IbaadatScoreRoutes");
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/prayer-log", PrayerLogRoutes);
 app.use("/api/goals", goalRoutes);
+app.use("/api/ibaadat-score", ibaadatScoreRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

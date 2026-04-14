@@ -18,6 +18,8 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import PrayerTracker from './component/PrayerTracker/PrayerTracker.jsx';
 import GoalPlanner from './component/GoalPlanner/GoalPlanner.jsx';
 import AnalyticsDashboard from './component/AnalyticsDashboard/AnalyticsDashboard.jsx';
+import IbaadatScore from './component/IbaadatScore/IbaadatScore.jsx';
+import ZakatCalculator from './component/ZakatCalculator/ZakatCalculator.jsx';
 
 const router = createBrowserRouter([
   {
@@ -74,6 +76,22 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AnalyticsDashboard />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: "/ibaadat-score",
+        element: (
+          <PrivateRoute>
+            <IbaadatScore />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: "/zakat-calculator",
+        element: (
+          <PrivateRoute>
+            <ZakatCalculator />
           </PrivateRoute>
         )
       },

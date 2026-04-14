@@ -7,6 +7,8 @@ import {
     ClipboardCheck,
     Target,
     BarChart3,
+    Star,
+    Calculator,
 } from "lucide-react";
 
 const Sidebar = () => {
@@ -98,6 +100,26 @@ const Sidebar = () => {
                         >
                             <BarChart3 size={20} />
                             Analytics Dashboard
+                        </Link>
+                    </li>
+
+                    <li>
+                        <Link
+                            to="/ibaadat-score"
+                            className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-green-900 transition-all duration-300"
+                        >
+                            <Star size={20} />
+                            Ibaadat Score
+                        </Link>
+                    </li>
+
+                    <li>
+                        <Link
+                            to="/zakat-calculator"
+                            className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-green-900 transition-all duration-300"
+                        >
+                            <Calculator size={20} />
+                            Zakat Calculator
                         </Link>
                     </li>
 
