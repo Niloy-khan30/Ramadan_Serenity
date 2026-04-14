@@ -17,7 +17,7 @@ import PrivateRoute from './routes/PrivateRoute.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 import PrayerTracker from './component/PrayerTracker/PrayerTracker.jsx';
 import GoalPlanner from './component/GoalPlanner/GoalPlanner.jsx';
-
+import AnalyticsDashboard from './component/AnalyticsDashboard/AnalyticsDashboard.jsx';
 
 const router = createBrowserRouter([
   {
@@ -66,6 +66,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <GoalPlanner />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: "/analytics-dashboard",
+        element: (
+          <PrivateRoute>
+            <AnalyticsDashboard />
           </PrivateRoute>
         )
       },

@@ -1,6 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { CalendarDays, BookOpen, CheckSquare, ClipboardCheck, Target } from "lucide-react";
+import {
+    CalendarDays,
+    BookOpen,
+    CheckSquare,
+    ClipboardCheck,
+    Target,
+    BarChart3,
+} from "lucide-react";
 
 const Sidebar = () => {
     return (
@@ -81,6 +88,16 @@ const Sidebar = () => {
                         >
                             <Target size={20} />
                             Goal Planner
+                        </Link>
+                    </li>
+
+                    <li>
+                        <Link
+                            to="/analytics-dashboard"
+                            className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-green-900 transition-all duration-300"
+                        >
+                            <BarChart3 size={20} />
+                            Analytics Dashboard
                         </Link>
                     </li>
 
