@@ -57,9 +57,6 @@ const ZakatCalculator = () => {
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-emerald-950 to-black text-white px-4 py-10">
             <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-10">
-                    <p className="text-green-400 font-semibold tracking-widest uppercase mb-2">
-                        Sprint 3 · Feature 5
-                    </p>
                     <h1 className="text-4xl md:text-5xl font-bold mb-3">
                         Zakat Calculator
                     </h1>
@@ -173,8 +170,8 @@ const ZakatCalculator = () => {
 
                             <div
                                 className={`rounded-xl p-4 ${calculation.isEligible
-                                        ? "bg-green-500/20"
-                                        : "bg-red-500/20"
+                                    ? "bg-green-500/20"
+                                    : "bg-red-500/20"
                                     }`}
                             >
                                 <p className="text-sm text-gray-300">Eligibility</p>

@@ -65,9 +65,6 @@ const IbaadatScore = () => {
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-emerald-950 to-black text-white px-4 py-10">
             <div className="max-w-5xl mx-auto">
                 <div className="text-center mb-10">
-                    <p className="text-green-400 font-semibold tracking-widest uppercase mb-2">
-                        Sprint 3 · Feature 4
-                    </p>
                     <h1 className="text-4xl md:text-5xl font-bold mb-3">
                         Daily Ibaadat Score
                     </h1>
