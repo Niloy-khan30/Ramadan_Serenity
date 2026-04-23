@@ -15,14 +15,12 @@ const Ramadan = () => {
     const params = CalculationMethod.Karachi();
     params.madhab = Madhab.Hanafi;
 
-    // Function to format prayer times
     const formatTime = (date) =>
         date.toLocaleTimeString("en-BD", {
             hour: "2-digit",
             minute: "2-digit",
         });
 
-    // Get user's current location
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -34,19 +32,15 @@ const Ramadan = () => {
                         )
                     );
                 },
-                (error) => {
-                    console.error("Error getting location:", error);
-                    // Fallback to Dhaka if user denies location
+                () => {
                     setCoordinates(new Coordinates(23.8103, 90.4125));
                 }
             );
         } else {
-            // Browser doesn't support geolocation
             setCoordinates(new Coordinates(23.8103, 90.4125));
         }
     }, []);
 
-    // Update prayer times when coordinates are available
     useEffect(() => {
         if (!coordinates) return;
 
@@ -76,28 +70,28 @@ const Ramadan = () => {
     }, [coordinates]);
 
     return (
-        <div className="w-1/3 mt-10">
-            <div className="bg-white shadow-2xl rounded-2xl p-6 w-full max-w-md text-center h-[300px]">
-                <h2 className="text-1xl font-bold text-gray-700 mb-2">
-                    🌙 Ramadan Dashboard
+        <div className="w-full">
+            <div className="bg-white/10 backdrop-blur-md border border-white/10 shadow-2xl rounded-3xl p-6 min-h-[520px]">
+                <h2 className="text-3xl font-bold text-white mb-6 leading-tight">
+                    🌙 Ramadan
+                    <br />
+                    Dashboard
                 </h2>
 
-                <div className="space-y-3">
-                    <div className="bg-green-100 p-1 rounded-xl">
-                        <p className="font-semibold text-gray-700">Sehri Ends</p>
-                        <p className="text-xl font-bold text-green-700">{sehri}</p>
+                <div className="space-y-5">
+                    <div className="bg-emerald-500/15 border border-emerald-400/20 rounded-2xl p-5 text-center">
+                        <p className="text-gray-300 text-lg">Sehri Ends</p>
+                        <p className="text-5xl font-bold text-emerald-400 mt-2">{sehri}</p>
                     </div>
 
-                    <div className="bg-orange-100 p-1 rounded-xl">
-                        <p className="font-semibold text-gray-700">Iftar Time</p>
-                        <p className="text-xl font-bold text-orange-600">{iftar}</p>
+                    <div className="bg-orange-500/15 border border-orange-400/20 rounded-2xl p-5 text-center">
+                        <p className="text-gray-300 text-lg">Iftar Time</p>
+                        <p className="text-5xl font-bold text-orange-400 mt-2">{iftar}</p>
                     </div>
 
-                    <div className="bg-gray-100 p-1 rounded-xl">
-                        <p className="font-semibold text-gray-700">
-                            ⏳ Time Left for Iftar
-                        </p>
-                        <p className="text-lg font-bold text-red-500">
+                    <div className="bg-slate-500/15 border border-white/10 rounded-2xl p-5 text-center">
+                        <p className="text-gray-300 text-lg">⏳ Time Left for Iftar</p>
+                        <p className="text-3xl font-bold text-red-400 mt-2 break-words">
                             {countdown}
                         </p>
                     </div>
