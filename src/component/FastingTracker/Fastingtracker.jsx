@@ -1,111 +1,144 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
-const days = 30;
+const DAYS_IN_RAMADAN = 30;
 
-const FastingTracker = () => {
-    const [fastingData, setFastingData] = useState([]);
+const getInitialDays = () => {
+    const saved = localStorage.getItem("fastingHistory");
+    if (saved) {
+        return JSON.parse(saved);
+    }
 
-    useEffect(() => {
-        const saved = localStorage.getItem("fastingHistory");
+    return Array.from({ length: DAYS_IN_RAMADAN }, (_, index) => ({
+        day: index + 1,
+        status: "",
+    }));
+};
 
-        if (saved) {
-            setFastingData(JSON.parse(saved));
-        } else {
-            const initial = Array.from({ length: days }, (_, i) => ({
-                day: i + 1,
-                status: "pending",
-            }));
-            setFastingData(initial);
-        }
-    }, []);
+const Fastingtracker = () => {
+    const [days, setDays] = useState(getInitialDays);
 
     useEffect(() => {
-        if (fastingData.length > 0) {
-            localStorage.setItem("fastingHistory", JSON.stringify(fastingData));
-        }
-    }, [fastingData]);
+        localStorage.setItem("fastingHistory", JSON.stringify(days));
+    }, [days]);
 
-    const updateStatus = (index, status) => {
-        const updated = [...fastingData];
-        updated[index].status = status;
-        setFastingData(updated);
+    const updateStatus = (dayNumber, status) => {
+        setDays((prevDays) =>
+            prevDays.map((item) =>
+                item.day === dayNumber ? { ...item, status } : item
+            )
+        );
     };
 
-    const completed = fastingData.filter(d => d.status === "completed").length;
-    const missed = fastingData.filter(d => d.status === "missed").length;
-    const excused = fastingData.filter(d => d.status === "excused").length;
+    const stats = useMemo(() => {
+        const completed = days.filter((d) => d.status === "completed").length;
+        const missed = days.filter((d) => d.status === "missed").length;
+        const excused = days.filter((d) => d.status === "excused").length;
+
+        return { completed, missed, excused };
+    }, [days]);
+
+    const getCardStyle = (status) => {
+        if (status === "completed") {
+            return "bg-emerald-500/15 border-emerald-400/20";
+        }
+        if (status === "missed") {
+            return "bg-red-500/15 border-red-400/20";
+        }
+        if (status === "excused") {
+            return "bg-amber-500/15 border-amber-400/20";
+        }
+        return "bg-white/5 border-white/10";
+    };
+
+    const getStatusLabel = (status) => {
+        if (status === "completed") return "Completed";
+        if (status === "missed") return "Missed";
+        if (status === "excused") return "Excused";
+        return "Not marked";
+    };
 
     return (
-        <div className="p-6 bg-white rounded-xl shadow-lg mb-20">
-
-            <h2 className="text-2xl font-bold mb-4 text-center">
-                Fasting Status Tracker
-            </h2>
-
-            {/* Summary */}
-            <div className="grid grid-cols-3 gap-4 mb-6 text-center">
-                <div className="bg-green-100 p-3 rounded-lg">
-                    <p className="font-bold text-green-700">{completed}</p>
-                    <p className="text-sm">Completed</p>
+        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-emerald-950 to-black text-white px-4 py-10 pb-28">
+            <div className="max-w-7xl mx-auto">
+                <div className="text-center mb-10">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-3">
+                        Fasting Tracker
+                    </h1>
+                    <p className="text-gray-300 max-w-2xl mx-auto">
+                        Track your daily fasting progress throughout Ramadan and keep a clear
+                        record of completed, missed, and excused days.
+                    </p>
                 </div>
 
-                <div className="bg-red-100 p-3 rounded-lg">
-                    <p className="font-bold text-red-700">{missed}</p>
-                    <p className="text-sm">Missed</p>
-                </div>
-
-                <div className="bg-yellow-100 p-3 rounded-lg">
-                    <p className="font-bold text-yellow-700">{excused}</p>
-                    <p className="text-sm">Excused</p>
-                </div>
-            </div>
-
-            {/* Days */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-
-                {fastingData.map((day, index) => (
-                    <div
-                        key={day.day}
-                        className="border p-4 rounded-lg shadow-sm"
-                    >
-                        <p className="font-semibold mb-2">
-                            Ramadan Day {day.day}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <div className="bg-emerald-500/15 border border-emerald-400/20 rounded-2xl p-5 text-center shadow-xl">
+                        <p className="text-sm text-gray-300 mb-1">Completed</p>
+                        <p className="text-3xl font-bold text-emerald-400">
+                            {stats.completed}
                         </p>
-
-                        <p className="text-sm mb-3 capitalize">
-                            Status: {day.status}
-                        </p>
-
-                        <div className="flex flex-wrap gap-2">
-
-                            <button
-                                onClick={() => updateStatus(index, "completed")}
-                                className="px-2 py-1 text-xs bg-green-500 text-white rounded"
-                            >
-                                Done
-                            </button>
-
-                            <button
-                                onClick={() => updateStatus(index, "missed")}
-                                className="px-2 py-1 text-xs bg-red-500 text-white rounded"
-                            >
-                                Missed
-                            </button>
-
-                            <button
-                                onClick={() => updateStatus(index, "excused")}
-                                className="px-2 py-1 text-xs bg-yellow-500 text-white rounded"
-                            >
-                                Sick/Travel
-                            </button>
-
-                        </div>
                     </div>
-                ))}
 
+                    <div className="bg-red-500/15 border border-red-400/20 rounded-2xl p-5 text-center shadow-xl">
+                        <p className="text-sm text-gray-300 mb-1">Missed</p>
+                        <p className="text-3xl font-bold text-red-400">{stats.missed}</p>
+                    </div>
+
+                    <div className="bg-amber-500/15 border border-amber-400/20 rounded-2xl p-5 text-center shadow-xl">
+                        <p className="text-sm text-gray-300 mb-1">Excused</p>
+                        <p className="text-3xl font-bold text-amber-400">{stats.excused}</p>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {days.map((item) => (
+                        <div
+                            key={item.day}
+                            className={`border rounded-2xl p-5 shadow-xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 ${getCardStyle(
+                                item.status
+                            )}`}
+                        >
+                            <div className="flex items-center justify-between mb-4">
+                                <h2 className="text-xl font-bold">Day {item.day}</h2>
+                                <span className="text-sm text-gray-300">
+                                    {getStatusLabel(item.status)}
+                                </span>
+                            </div>
+
+                            <div className="flex flex-wrap gap-3">
+                                <button
+                                    onClick={() => updateStatus(item.day, "completed")}
+                                    className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-emerald-500"
+                                >
+                                    Done
+                                </button>
+
+                                <button
+                                    onClick={() => updateStatus(item.day, "missed")}
+                                    className="rounded-xl bg-red-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-500"
+                                >
+                                    Missed
+                                </button>
+
+                                <button
+                                    onClick={() => updateStatus(item.day, "excused")}
+                                    className="rounded-xl bg-amber-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-amber-400"
+                                >
+                                    Sick/Travel
+                                </button>
+
+                                <button
+                                    onClick={() => updateStatus(item.day, "")}
+                                    className="rounded-xl bg-white/10 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/15"
+                                >
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
 };
 
-export default FastingTracker;
+export default Fastingtracker;

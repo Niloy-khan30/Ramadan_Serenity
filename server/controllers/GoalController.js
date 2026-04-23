@@ -3,6 +3,7 @@ const getTodayDate = () => new Date().toISOString().split("T")[0];
 
 const createGoal = async (req, res) => {
     try {
+        console.log("createGoal req.body:", req.body);
         const {
             userEmail,
             title,
@@ -27,6 +28,7 @@ const createGoal = async (req, res) => {
             category,
             targetType,
             targetValue,
+            goalMode: goalMode || "progress",
         });
 
         return res.status(201).json({

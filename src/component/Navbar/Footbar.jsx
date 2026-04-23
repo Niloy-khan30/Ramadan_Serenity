@@ -1,28 +1,55 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { Home, User, Settings } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 const Footbar = () => {
     const { user } = useAuth();
+    const location = useLocation();
+
+    const navItems = [
+        {
+            to: '/',
+            label: 'Home',
+            icon: Home,
+        },
+        {
+            to: user ? '/profile' : '/login',
+            label: 'Profile',
+            icon: User,
+        },
+        {
+            to: '/profile',
+            label: 'Settings',
+            icon: Settings,
+        },
+    ];
 
     return (
-        <div className="dock bg-neutral text-neutral-content max-w-7xl m-auto">
-            <button>
-                <svg className="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor" strokeLinejoin="miter" strokeLinecap="butt"><polyline points="1 11 12 2 23 11" fill="none" stroke="currentColor" strokeMiterlimit="10" strokeWidth="2"></polyline><path d="m5,13v7c0,1.105.895,2,2,2h10c1.105,0,2-.895,2-2v-7" fill="none" stroke="currentColor" strokeLinecap="square" strokeMiterlimit="10" strokeWidth="2"></path><line x1="12" y1="22" x2="12" y2="18" fill="none" stroke="currentColor" strokeLinecap="square" strokeMiterlimit="10" strokeWidth="2"></line></g></svg>
-                <Link to='/'><span className="dock-label">Home</span></Link>
-            </button>
+        <div className="fixed bottom-4 left-1/2 z-40 w-[92%] max-w-4xl -translate-x-1/2">
+            <div className="bg-slate-950/85 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl px-3 py-2">
+                <div className="grid grid-cols-3 gap-2">
+                    {navItems.map(({ to, label, icon: Icon }) => {
+                        const isActive =
+                            location.pathname === to ||
+                            (label === 'Settings' && location.pathname === '/profile');
 
-            <button className="dock-active">
-                <svg className="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor" strokeLinejoin="miter" strokeLinecap="butt"><polyline points="3 14 9 14 9 17 15 17 15 14 21 14" fill="none" stroke="currentColor" strokeMiterlimit="10" strokeWidth="2"></polyline><rect x="3" y="3" width="18" height="18" rx="2" ry="2" fill="none" stroke="currentColor" strokeLinecap="square" strokeMiterlimit="10" strokeWidth="2"></rect></g></svg>
-                <Link to={user ? "/profile" : "/login"}>
-                    <span className="dock-label">Profile</span>
-                </Link>
-            </button>
-
-            <button>
-                <svg className="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor" strokeLinejoin="miter" strokeLinecap="butt"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeLinecap="square" strokeMiterlimit="10" strokeWidth="2"></circle><path d="m22,13.25v-2.5l-2.318-.966c-.167-.581-.395-1.135-.682-1.654l.954-2.318-1.768-1.768-2.318.954c-.518-.287-1.073-.515-1.654-.682l-.966-2.318h-2.5l-.966,2.318c-.581.167-1.135.395-1.654.682l-2.318-.954-1.768,1.768.954,2.318c-.287.518-.515,1.073-.682,1.654l-2.318.966v2.5l2.318.966c.167.581.395,1.135.682,1.654l-.954,2.318,1.768,1.768,2.318-.954c.518.287,1.073.515,1.654.682l.966,2.318h2.5l.966-2.318c.581-.167,1.135-.395,1.654-.682l2.318.954,1.768-1.768-.954-2.318c.287-.518.515-1.073.682-1.654l2.318-.966Z" fill="none" stroke="currentColor" strokeLinecap="square" strokeMiterlimit="10" strokeWidth="2"></path></g></svg>
-                <span className="dock-label">Settings</span>
-            </button>
+                        return (
+                            <Link
+                                key={label}
+                                to={to}
+                                className={`flex flex-col items-center justify-center gap-1 rounded-xl py-3 transition-all duration-200 ${isActive
+                                    ? 'bg-emerald-500/15 text-emerald-400'
+                                    : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                                    }`}
+                            >
+                                <Icon size={20} />
+                                <span className="text-xs font-medium">{label}</span>
+                            </Link>
+                        );
+                    })}
+                </div>
+            </div>
         </div>
     );
 };

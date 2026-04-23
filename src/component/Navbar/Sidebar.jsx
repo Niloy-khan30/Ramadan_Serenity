@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
     CalendarDays,
     BookOpen,
@@ -9,126 +9,101 @@ import {
     BarChart3,
     Star,
     Calculator,
+    ChevronRight,
 } from "lucide-react";
 
+const navItems = [
+    { to: "/ramadanCalender", label: "Ramadan Calendar", icon: CalendarDays },
+    { to: "/quran", label: "Read Quran", icon: BookOpen },
+    { to: "/tracker", label: "Fasting Tracker", icon: CheckSquare },
+    { to: "/prayer-tracker", label: "Prayer Tracker", icon: ClipboardCheck },
+    { to: "/goal-planner", label: "Goal Planner", icon: Target },
+    { to: "/analytics-dashboard", label: "Analytics Dashboard", icon: BarChart3 },
+    { to: "/ibaadat-score", label: "Ibaadat Score", icon: Star },
+    { to: "/zakat-calculator", label: "Zakat Calculator", icon: Calculator },
+];
+
 const Sidebar = () => {
+    const [open, setOpen] = useState(false);
+    const location = useLocation();
+
     return (
-        <div className="drawer">
-            <input id="my-drawer-1" type="checkbox" className="drawer-toggle" />
-
-            {/* Page content */}
-            <div className="drawer-content">
-                <label
-                    htmlFor="my-drawer-1"
-                    className="btn bg-green-600 text-white hover:bg-green-700 border-none"
+        <div
+            className="fixed left-0 top-0 z-50 h-screen"
+            onMouseEnter={() => setOpen(true)}
+            onMouseLeave={() => setOpen(false)}
+        >
+            <div className="relative h-full">
+                <div
+                    className={`h-full bg-slate-950/95 backdrop-blur-xl border-r border-white/10 shadow-2xl transition-all duration-300 overflow-hidden ${open ? "w-72" : "w-16"
+                        }`}
                 >
-                    Explore
-                </label>
-            </div>
+                    <div className="h-full flex flex-col">
+                        <div className="h-20 border-b border-white/10 flex items-center px-4">
+                            {open ? (
+                                <div>
+                                    <h1 className="text-xl font-bold text-white whitespace-nowrap">
+                                        🌙 Ramadan Serenity
+                                    </h1>
+                                    <p className="text-xs text-gray-400 whitespace-nowrap">
+                                        Spiritual Companion
+                                    </p>
+                                </div>
+                            ) : (
+                                <div className="w-full flex justify-center">
+                                    <span className="text-2xl">🌙</span>
+                                </div>
+                            )}
+                        </div>
 
-            {/* Sidebar */}
-            <div className="drawer-side z-50">
-                <label
-                    htmlFor="my-drawer-1"
-                    aria-label="close sidebar"
-                    className="drawer-overlay"
-                ></label>
+                        <ul className="flex-1 py-4 space-y-2">
+                            {navItems.map(({ to, label, icon: Icon }) => {
+                                const active = location.pathname === to;
 
-                <ul className="menu bg-gradient-to-b from-green-700 to-green-900 text-white min-h-full w-80 p-6 space-y-4">
+                                return (
+                                    <li key={to} className="px-2">
+                                        <Link
+                                            to={to}
+                                            className={`flex items-center rounded-xl transition-all duration-300 ${open
+                                                ? "gap-3 px-4 py-3 justify-start"
+                                                : "justify-center py-3 px-0"
+                                                } ${active
+                                                    ? "bg-emerald-500/20 text-emerald-300"
+                                                    : "text-gray-300 hover:bg-white/5 hover:text-white"
+                                                }`}
+                                            title={!open ? label : ""}
+                                        >
+                                            <Icon size={20} className="shrink-0" />
+                                            {open && <span className="whitespace-nowrap">{label}</span>}
+                                        </Link>
+                                    </li>
+                                );
+                            })}
+                        </ul>
 
-                    {/* Title */}
-                    <div className="mb-6 text-center">
-                        <h1 className="text-2xl font-bold">🌙 Ramadan Serenity</h1>
-                        <p className="text-sm opacity-80">Spiritual Companion</p>
+                        <div className="border-t border-white/10 p-4">
+                            {open ? (
+                                <p className="text-xs text-center text-gray-400">
+                                    Made with care for Ramadan
+                                </p>
+                            ) : (
+                                <div className="h-4" />
+                            )}
+                        </div>
                     </div>
+                </div>
 
-                    {/* Menu Items */}
-                    <li>
-                        <Link
-                            to="/ramadanCalender"
-                            className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-green-900 transition-all duration-300"
-                        >
-                            <CalendarDays size={20} />
-                            Ramadan Calendar
-                        </Link>
-                    </li>
-
-                    <li>
-                        <Link
-                            to="/quran"
-                            className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-green-900 transition-all duration-300"
-                        >
-                            <BookOpen size={20} />
-                            Read Quran
-                        </Link>
-                    </li>
-
-                    <li>
-                        <Link
-                            to="/tracker"
-                            className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-green-900 transition-all duration-300"
-                        >
-                            <CheckSquare size={20} />
-                            Fasting Tracker
-                        </Link>
-                    </li>
-
-                    <li>
-                        <Link
-                            to="/prayer-tracker"
-                            className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-green-900 transition-all duration-300"
-                        >
-                            <ClipboardCheck size={20} />
-                            Prayer Tracker
-                        </Link>
-                    </li>
-
-                    <li>
-                        <Link
-                            to="/goal-planner"
-                            className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-green-900 transition-all duration-300"
-                        >
-                            <Target size={20} />
-                            Goal Planner
-                        </Link>
-                    </li>
-
-                    <li>
-                        <Link
-                            to="/analytics-dashboard"
-                            className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-green-900 transition-all duration-300"
-                        >
-                            <BarChart3 size={20} />
-                            Analytics Dashboard
-                        </Link>
-                    </li>
-
-                    <li>
-                        <Link
-                            to="/ibaadat-score"
-                            className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-green-900 transition-all duration-300"
-                        >
-                            <Star size={20} />
-                            Ibaadat Score
-                        </Link>
-                    </li>
-
-                    <li>
-                        <Link
-                            to="/zakat-calculator"
-                            className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-white hover:text-green-900 transition-all duration-300"
-                        >
-                            <Calculator size={20} />
-                            Zakat Calculator
-                        </Link>
-                    </li>
-
-                    {/* Footer */}
-                    <div className="mt-auto pt-10 text-center text-sm opacity-70">
-                        Made with 🤍 for Ramadan
-                    </div>
-
-                </ul>
+                <button
+                    type="button"
+                    onClick={() => setOpen((prev) => !prev)}
+                    className="absolute top-6 -right-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full p-2 shadow-lg border border-white/10"
+                >
+                    <ChevronRight
+                        size={16}
+                        className={`transition-transform duration-300 ${open ? "rotate-180" : "rotate-0"
+                            }`}
+                    />
+                </button>
             </div>
         </div>
     );
