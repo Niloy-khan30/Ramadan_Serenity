@@ -29,7 +29,7 @@ const Sidebar = () => {
 
     return (
         <div
-            className="fixed left-0 top-0 z-50 h-screen"
+            className="fixed left-0 top-16 z-50 h-[calc(100vh-4rem)]"
             onMouseEnter={() => setOpen(true)}
             onMouseLeave={() => setOpen(false)}
         >
