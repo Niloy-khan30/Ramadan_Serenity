@@ -163,8 +163,30 @@ const getPrayerConsistency = async (req, res) => {
     }
 };
 
+const getPrayerLogsByUser = async (req, res) => {
+    try {
+        const { email } = req.params;
+
+        const logs = await PrayerLog.find({ userEmail: email }).sort({ date: 1 });
+
+        return res.status(200).json({
+            success: true,
+            logs,
+        });
+    } catch (error) {
+        console.error("Get prayer logs error:", error.message);
+
+        return res.status(500).json({
+            success: false,
+            message: "Failed to fetch prayer logs",
+            error: error.message,
+        });
+    }
+};
+
 module.exports = {
     upsertPrayerLog,
     getPrayerLogByDate,
     getPrayerConsistency,
+    getPrayerLogsByUser,
 };

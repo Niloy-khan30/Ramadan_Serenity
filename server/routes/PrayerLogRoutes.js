@@ -3,16 +3,15 @@ const {
     upsertPrayerLog,
     getPrayerLogByDate,
     getPrayerConsistency,
+    getPrayerLogsByUser,
 } = require("../controllers/PrayerLogController");
 
 const router = express.Router();
 
 router.post("/", upsertPrayerLog);
 
-// IMPORTANT: put this BEFORE the dynamic route
 router.get("/consistency/:email", getPrayerConsistency);
-
-// dynamic route comes LAST
+router.get("/all/:email", getPrayerLogsByUser);
 router.get("/:email/:date", getPrayerLogByDate);
 
 module.exports = router;
