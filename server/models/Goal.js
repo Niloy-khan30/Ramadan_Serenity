@@ -20,18 +20,13 @@ const goalSchema = new mongoose.Schema(
         },
         category: {
             type: String,
+            enum: ["general", "prayer", "fasting", "quran", "charity"],
             default: "general",
-            trim: true,
         },
         targetType: {
             type: String,
             enum: ["daily", "weekly", "monthly"],
             default: "daily",
-        },
-        goalMode: {
-            type: String,
-            enum: ["progress", "streak"],
-            default: "progress",
         },
         targetValue: {
             type: Number,
@@ -41,31 +36,22 @@ const goalSchema = new mongoose.Schema(
         currentValue: {
             type: Number,
             default: 0,
-            min: 0,
         },
         status: {
             type: String,
             enum: ["active", "completed"],
             default: "active",
         },
+        periodKey: {
+            type: String,
+            default: "",
+        },
         lastUpdatedDate: {
             type: String,
             default: () => new Date().toISOString().split("T")[0],
         },
-        streakCount: {
-            type: Number,
-            default: 0,
-        },
-        bestStreak: {
-            type: Number,
-            default: 0,
-        },
     },
-    {
-        timestamps: true,
-    }
+    { timestamps: true }
 );
 
-const Goal = mongoose.model("Goal", goalSchema);
-
-module.exports = Goal;
+module.exports = mongoose.model("Goal", goalSchema);

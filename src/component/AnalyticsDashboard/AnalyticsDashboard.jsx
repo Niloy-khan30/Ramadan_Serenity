@@ -32,13 +32,13 @@ const AnalyticsDashboard = () => {
 
                 const goalRes = await axios.get(`${API_URL}/api/goals/${user.email}`);
                 setGoals(goalRes.data.goals || []);
+
+                const fastingRes = await axios.get(
+                    `${API_URL}/api/fasting-log/${user.email}`
+                );
+                setFastingData(fastingRes.data.logs || []);
             } catch (error) {
                 console.error("Failed to load dashboard data:", error);
-            }
-
-            const savedFasting = localStorage.getItem("fastingHistory");
-            if (savedFasting) {
-                setFastingData(JSON.parse(savedFasting));
             }
         };
 
@@ -48,14 +48,17 @@ const AnalyticsDashboard = () => {
     const completedGoals = goals.filter(
         (goal) => goal.status === "completed"
     ).length;
+
     const activeGoals = goals.filter((goal) => goal.status === "active").length;
 
     const completedFasts = fastingData.filter(
         (day) => day.status === "completed"
     ).length;
+
     const missedFasts = fastingData.filter(
         (day) => day.status === "missed"
     ).length;
+
     const excusedFasts = fastingData.filter(
         (day) => day.status === "excused"
     ).length;
@@ -80,12 +83,17 @@ const AnalyticsDashboard = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-emerald-950 to-black text-white px-4 py-10">
+        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-emerald-950 to-black text-white px-4 py-10 pb-28">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-10">
+                    <p className="text-green-400 font-semibold tracking-widest uppercase mb-2">
+                        Analytics
+                    </p>
+
                     <h1 className="text-4xl md:text-5xl font-bold mb-3">
                         Ramadan Analytics Dashboard
                     </h1>
+
                     <p className="text-gray-300 max-w-2xl mx-auto">
                         View your Ramadan progress across prayers, fasting, and goals in one
                         place.
@@ -121,6 +129,7 @@ const AnalyticsDashboard = () => {
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-10">
                     <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-2xl">
                         <h2 className="text-2xl font-bold mb-4">Prayer Summary</h2>
+
                         <div className="space-y-4">
                             <div className="bg-green-500/20 rounded-xl p-4">
                                 <p className="text-sm text-gray-300">Perfect Prayer Days</p>
@@ -142,18 +151,12 @@ const AnalyticsDashboard = () => {
                                     {prayerConsistency?.maxStreak || 0}
                                 </p>
                             </div>
-
-                            <div className="bg-blue-500/20 rounded-xl p-4">
-                                <p className="text-sm text-gray-300">Average Prayers Per Day</p>
-                                <p className="text-2xl font-bold">
-                                    {prayerConsistency?.averagePrayersPerDay || 0}
-                                </p>
-                            </div>
                         </div>
                     </div>
 
                     <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-2xl">
                         <h2 className="text-2xl font-bold mb-4">Fasting + Goal Summary</h2>
+
                         <div className="space-y-4">
                             <div className="bg-yellow-500/20 rounded-xl p-4">
                                 <p className="text-sm text-gray-300">Active Goals</p>
@@ -181,6 +184,7 @@ const AnalyticsDashboard = () => {
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-10">
                     <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-2xl">
                         <h2 className="text-2xl font-bold mb-4">Prayer Analytics</h2>
+
                         <ResponsiveContainer width="100%" height={300}>
                             <BarChart data={prayerChartData}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#475569" />
@@ -206,6 +210,7 @@ const AnalyticsDashboard = () => {
 
                     <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-2xl">
                         <h2 className="text-2xl font-bold mb-4">Goal Analytics</h2>
+
                         <ResponsiveContainer width="100%" height={300}>
                             <BarChart data={goalChartData}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#475569" />
@@ -228,6 +233,7 @@ const AnalyticsDashboard = () => {
                 <div className="grid grid-cols-1 mt-10">
                     <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-2xl">
                         <h2 className="text-2xl font-bold mb-4">Fasting Analytics</h2>
+
                         <ResponsiveContainer width="100%" height={300}>
                             <BarChart data={fastingChartData}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#475569" />

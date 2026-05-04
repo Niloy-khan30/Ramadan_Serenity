@@ -1,9 +1,8 @@
 const Goal = require("../models/Goal");
-const getTodayDate = () => new Date().toISOString().split("T")[0];
+const { getTodayDate, getPeriodKey } = require("../utils/goalUtils");
 
 const createGoal = async (req, res) => {
     try {
-        console.log("createGoal req.body:", req.body);
         const {
             userEmail,
             title,
@@ -11,7 +10,6 @@ const createGoal = async (req, res) => {
             category,
             targetType,
             targetValue,
-            goalMode,
         } = req.body;
 
         if (!userEmail || !title || !targetValue) {
@@ -21,6 +19,8 @@ const createGoal = async (req, res) => {
             });
         }
 
+        const today = getTodayDate();
+
         const goal = await Goal.create({
             userEmail,
             title,
@@ -28,7 +28,8 @@ const createGoal = async (req, res) => {
             category,
             targetType,
             targetValue,
-            goalMode: goalMode || "progress",
+            periodKey: getPeriodKey(today, targetType || "daily"),
+            lastUpdatedDate: today,
         });
 
         return res.status(201).json({
@@ -37,8 +38,6 @@ const createGoal = async (req, res) => {
             goal,
         });
     } catch (error) {
-        console.error("Create goal error:", error.message);
-
         return res.status(500).json({
             success: false,
             message: "Failed to create goal",
@@ -55,9 +54,12 @@ const getGoalsByUser = async (req, res) => {
         const goals = await Goal.find({ userEmail: email }).sort({ createdAt: -1 });
 
         for (const goal of goals) {
-            if (goal.targetType === "daily" && goal.lastUpdatedDate !== today) {
+            const currentPeriodKey = getPeriodKey(today, goal.targetType);
+
+            if (goal.periodKey !== currentPeriodKey) {
                 goal.currentValue = 0;
                 goal.status = "active";
+                goal.periodKey = currentPeriodKey;
                 goal.lastUpdatedDate = today;
                 await goal.save();
             }
@@ -68,8 +70,6 @@ const getGoalsByUser = async (req, res) => {
             goals,
         });
     } catch (error) {
-        console.error("Get goals error:", error.message);
-
         return res.status(500).json({
             success: false,
             message: "Failed to fetch goals",
@@ -92,9 +92,16 @@ const updateGoalProgress = async (req, res) => {
             });
         }
 
-        goal.currentValue = currentValue;
-        goal.status =
-            goal.currentValue >= goal.targetValue ? "completed" : "active";
+        if (goal.category === "prayer" || goal.category === "fasting") {
+            return res.status(400).json({
+                success: false,
+                message: "Prayer and fasting goals update automatically from trackers",
+            });
+        }
+
+        goal.currentValue = Number(currentValue);
+        goal.status = goal.currentValue >= goal.targetValue ? "completed" : "active";
+        goal.lastUpdatedDate = getTodayDate();
 
         await goal.save();
 
@@ -104,8 +111,6 @@ const updateGoalProgress = async (req, res) => {
             goal,
         });
     } catch (error) {
-        console.error("Update goal progress error:", error.message);
-
         return res.status(500).json({
             success: false,
             message: "Failed to update goal progress",
@@ -132,8 +137,6 @@ const deleteGoal = async (req, res) => {
             message: "Goal deleted successfully",
         });
     } catch (error) {
-        console.error("Delete goal error:", error.message);
-
         return res.status(500).json({
             success: false,
             message: "Failed to delete goal",
