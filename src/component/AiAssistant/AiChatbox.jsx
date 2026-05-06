@@ -13,7 +13,7 @@ const AiChatbox = () => {
         {
             role: "assistant",
             content:
-                "Assalamu Alaikum! I’m your Ramadan Serenity assistant. Ask me about fasting, prayer, diet, duas, or Islamic lifestyle guidance.",
+                "Assalamu Walaikum! I’m your Ramadan Serenity assistant. Ask me about fasting, prayer, diet, duas, or Islamic lifestyle guidance.",
         },
     ]);
 
@@ -121,8 +121,8 @@ const AiChatbox = () => {
 
                                     <div
                                         className={`max-w-[78%] px-4 py-3 rounded-2xl text-sm leading-relaxed ${isUser
-                                                ? "bg-emerald-600 text-white rounded-tr-sm"
-                                                : "bg-white/10 border border-white/10 text-gray-100 rounded-tl-sm"
+                                            ? "bg-emerald-600 text-white rounded-tr-sm"
+                                            : "bg-white/10 border border-white/10 text-gray-100 rounded-tl-sm"
                                             }`}
                                     >
                                         {msg.content}
