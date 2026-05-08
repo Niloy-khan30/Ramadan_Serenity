@@ -1,5 +1,10 @@
 const express = require("express");
 const {
+    protect,
+    authorizeUserEmail,
+} = require("../middleware/authMiddleware");
+
+const {
     upsertPrayerLog,
     getPrayerLogByDate,
     getPrayerConsistency,
@@ -8,10 +13,17 @@ const {
 
 const router = express.Router();
 
-router.post("/", upsertPrayerLog);
+router.post("/", protect, authorizeUserEmail, upsertPrayerLog);
 
-router.get("/consistency/:email", getPrayerConsistency);
-router.get("/all/:email", getPrayerLogsByUser);
-router.get("/:email/:date", getPrayerLogByDate);
+router.get(
+    "/consistency/:email",
+    protect,
+    authorizeUserEmail,
+    getPrayerConsistency
+);
+
+router.get("/all/:email", protect, authorizeUserEmail, getPrayerLogsByUser);
+
+router.get("/:email/:date", protect, authorizeUserEmail, getPrayerLogByDate);
 
 module.exports = router;
