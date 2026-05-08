@@ -86,6 +86,13 @@ const getPrayerLogByDate = async (req, res) => {
             date,
         });
 
+        if (!log) {
+            return res.status(404).json({
+                success: false,
+                message: "Prayer log not found",
+            });
+        }
+
         return res.status(200).json({
             success: true,
             log,
